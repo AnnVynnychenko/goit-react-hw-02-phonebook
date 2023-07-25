@@ -37,19 +37,23 @@ class App extends Component {
     this.setState({ filter: value });
   };
 
-  render() {
+  visibleContacts = () => {
     const { contacts, filter } = this.state;
     const normalizedFilter = filter.toLowerCase();
-    const visibleContacts = contacts.filter(contact =>
+    return contacts.filter(contact =>
       contact.name.toLowerCase().includes(normalizedFilter)
     );
+  };
+
+  render() {
+    const { filter } = this.state;
     return (
       <Phonebook titleBegin="Phone" titleEnd="book">
         <ContactForm onSubmit={this.formSubmitHandler} />
         <Contacts title="Contacts">
           <Filter filterValue={filter} onFilterContacts={this.filterContacts} />
           <ContactList
-            contacts={visibleContacts}
+            contacts={this.visibleContacts()}
             onDeleteContact={this.deleteContact}
           />
         </Contacts>
